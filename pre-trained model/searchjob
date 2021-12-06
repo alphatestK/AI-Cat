@@ -1,0 +1,24 @@
+reloadmodel  1
+NNmode  25
+# mode 0   1model ,add barrier by dict
+# mode 1   twomodel  ECFPwithsite
+# mode 2   twomodel  rpmodel: twomodel heat and barrier
+# mode 3   twomodel  ECFPwithsite, add rpinfo
+# mode 4   twomodel  rpmodel: twomodel heat and barrier, add rpinfo
+# mode 5   twomodel  rpmodelinput: ECFP0 of is and rp, add rpinfo  
+# mode 7   twomodel  rpmodelinput: ECFP0 of is and fs, add rpinfo
+# mode 15  twomodel  rpmodelinput: ECFP0 of is and rp
+# mode 17  twomodel  rpmodelinput: ECFP0 of is and fs
+# mode 25  twomodel  rpmodelinput: ECFP0 of is and rp, add rpinfo and surfacetype
+# mode 27  twomodel  rpmodelinput: ECFP0 of is and fs, add rpinfo and surfacetype
+
+
+mode 1
+inputfile   glycerolto12.arc
+#startfile   glycerolto12.arc
+#targetfile  glycerolto12.arc
+
+maxpathdepth 13
+selectsurface   111
+
+maxsearchtime 100000
