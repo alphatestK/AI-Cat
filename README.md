@@ -102,16 +102,16 @@ After training, you will get two files in `train` directory.
 Before predicting the material properties, you will need to:
 
 - [Gnerate a customized dataset](#generate-a-customized-dataset) to store the possible reaction patterns, and link the generated `*.pkl` file.
-- Obtain two [pre-trained AI-Cat models](pre-trained-model) named `policymodel.h5` and `infonet.h5`.
+- Obtain two [pre-trained AI-Cat models](pre-trained) named `policymodel.h5` and `infonet.h5`.
 
-Then, in directory `pre-trained model` with all these files, you can set the searching target in `searchjob` file and predict the mechanism of possible reaction by running:
+Then, in directory `pre-trained` with all these files, you can set the searching target in `searchjob` file and predict the mechanism of possible reaction by running:
 
 ```bash
 ln -s ../data/customized data/*.pkl .
 python MCTS_ZPE.py
 ```
 
-For instace, you can predict the mechanism of glycerol hydrogenolysis to 1,2-propanediol in `pre-trained/` by setting the mode as **1** and inputfile as `glycerolto12.arc`, in which 2 structures (the reactants and possible product) are provided.
+For instace, you can predict the mechanism of glycerol hydrogenolysis to 1,2-propanediol in `pre-trained` by setting the mode as **1** and inputfile as `glycerolto12.arc`, in which 2 structures (the reactants and possible product) are provided.
 
 And if you have no clear idea of the target product, you can do not set the products by giving an empty structure **2** or set the mulit targets in mode **2** or set vauge target in mode **3**.
 
