@@ -8,7 +8,7 @@ The package provides two major functions:
 - Train a AI-cat model with a customized dataset.
 - Predict mechanism of possible reactions with a pre-trained AI-Cat model.
 
-The code is written for Python 2.6 or 2.7. The current version is only a development version for functional test and the more user firendlly version will be updated later.
+The code is written for Python 2.6 or 2.7. The current version is only a development version for functional test and the more clean and user firendlly version will be updated later.
 
 The following paper describes the details of the AI-Cat framework:
 
@@ -26,13 +26,13 @@ Selectivity Origin of Catalytic Glycerol Hydrogenolysis on Cu Resolved from Arti
 ## Prerequisites
 
 This package requires:
-- Openbabel
-- Tensorflow
-- numpy
+- [Openbabel](https://openbabel.org/wiki/Main_Page)
+- [Tensorflow](https://www.tensorflow.org/install)
+- [Numpy](https://numpy.org/)
 
 ## Usage
 
-To use the program, you need to add the ```$YOURWORKDIR/lib``` to your ```/PYTHONPATH```.
+To use the program, you first need to add the ```$YOURWORKDIR/lib``` to your ```/PYTHONPATH```.
 
 ### Generate a customized dataset 
 
@@ -62,6 +62,7 @@ workdir
 ├── reactiontype.py
 ├── ...
 ```
+There is an example of raw data in the repository: `data/rawdata/`.
 
 You can generate the dataset by running:
 ```bash
@@ -73,7 +74,7 @@ After the `testdata` and `allpair.arc` are generated, you can generate the addit
 python reactiontype.py
 ```
 
-There are an example of customized datasets in the repository: `data/`. 
+There is an example of customized data in the repository: `data/customized data/`. 
 
 
 ### Train a AI-Cat model
@@ -85,7 +86,7 @@ Before training a new AI-Cat model, you will need to:
 Then, in directory `train`, you can train a AI-Cat model for your customized dataset by:
 
 ```bash
-ln -s ../data/data* .
+ln -s ../data/customized data/data* .
 python train_net1.py
 python train_net2.py
 ```
@@ -103,21 +104,21 @@ Before predicting the material properties, you will need to:
 - [Gnerate a customized dataset](#generate-a-customized-dataset) to store the possible reaction patterns, and link the generated `*.pkl` file.
 - Obtain two [pre-trained AI-Cat models](pre-trained) named `policymodel.h5` and `infonet.h5`.
 
-Then, in directory with all these files, you can set the target in `searchjob` file and predict the mechanism of possible reaction by running:
+Then, in directory `pre-trained model` with all these files, you can set the searching target in `searchjob` file and predict the mechanism of possible reaction by running:
 
 ```bash
-ln -s ../data/*.pkl .
+ln -s ../data/customized data/*.pkl .
 python MCTS_ZPE.py
 ```
 
 For instace, you can predict the mechanism of glycerol hydrogenolysis to 1,2-propanediol in `pre-trained/` by setting the mode as **1** and inputfile as `glycerolto12.arc`, in which 2 structures (the reactants and possible product) are provided.
 
-And if you have no clear idea of the target product, you can do not set the products by giving an empty structure **2** or set the vague targets in mode **2** and mode **3**.
+And if you have no clear idea of the target product, you can do not set the products by giving an empty structure **2** or set the mulit targets in mode **2** or set vauge target in mode **3**.
 
 After predicting, you will get the 3 files in directory:
 
 - `result`: stores the predicted possible reaction mechanism of reactant to target products.
-- `goodresult`: stores the possible products predicted in serach.
+- `goodresult`: stores the predicted possible products generated from reactants in serach.
 - `allstep` : stores the searching log.
 
 ## Authors
