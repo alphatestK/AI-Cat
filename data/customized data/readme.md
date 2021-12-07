@@ -1,1 +1,1 @@
-# get dataset example from .[www.lasphub.com/xx].(www.lasphub.com)
+# Download customized data example from [http://old.lasphub.com/ai/customizeddata.tgz](http://old.lasphub.com/ai/customizeddata.tgz)
