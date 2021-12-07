@@ -86,7 +86,7 @@ Before training a new AI-Cat model, you will need to:
 Then, in directory `train`, you can train a AI-Cat model for your customized dataset by:
 
 ```bash
-ln -s ../data/customized data/data* .
+ln -s ../data/customized_data/data* .
 python train_net1.py
 python train_net2.py
 ```
@@ -107,7 +107,7 @@ Before predicting the material properties, you will need to:
 Then, in directory `pre-trained` with all these files, you can set the searching target in `searchjob` file and predict the mechanism of possible reaction by running:
 
 ```bash
-ln -s ../data/customized data/*.pkl .
+ln -s ../data/customized_data/*.pkl .
 python MCTS_ZPE.py
 ```
 
