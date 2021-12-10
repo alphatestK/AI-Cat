@@ -19,6 +19,7 @@ inputfile   glycerolto12.arc
 #targetfile  glycerolto12.arc
 
 maxpathdepth 13
+LaddZPE   1
 selectsurface   111
 
-maxsearchtime 100000
+maxsearchtime 150000

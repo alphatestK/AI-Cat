@@ -187,13 +187,13 @@ class Predictor(AllReactStr):
 #        self.PredictProduct_Singlemodel()
 #        return self.rpdict[Str.ECFPname]
 
-    def Predict(self,Str,selectsurface = 0, LaddZPE = 1):
+    def Predict(self,Str,selectsurface = 0):
         if len(self) == 1:
             self.pop(0)
         self.append(Str)
 
         if (selectsurface):
-            self.PredictProduct_fixedsurface(selectsurface, LaddZPE= LaddZPE)
+            self.PredictProduct_fixedsurface(selectsurface, LaddZPE= self.LaddZPE)
         else:
             if self.mode ==0:
                 self.PredictProduct_Singlemodel()
@@ -201,11 +201,11 @@ class Predictor(AllReactStr):
                 self.PredictProduct()
         return  self.rpdict[Str.ECFPname]
 
-    def Predict_fixedsurface(self,Str,selectsurface, LaddZPE= 1):
+    def Predict_fixedsurface(self,Str,selectsurface):
         if len(self) == 1:
             self.pop(0)
         self.append(Str)
-        self.PredictProduct_fixedsurface(selectsurface, LaddZPE= LaddZPE)
+        self.PredictProduct_fixedsurface(selectsurface, LaddZPE= self.LaddZPE)
         return self.rpdict[Str.ECFPname]
 
     def Predict_selectrp(self,pair,rp,LGibbs, selectsurface = False):
@@ -224,7 +224,7 @@ class Predictor(AllReactStr):
 
 
 class MCTS(object):
-    def __init__(self, NNset,modelset):
+    def __init__(self, NNset,modelset, LaddZPE = 1):
 
 #        self.model,self.rpmodel, self.rpRealIndexToInput, self.stdout, self.PattIndexDict,self.RealIndexToInput0,\
 #                            self.RealIndexToInput_withsite,self.allrpdict_withsite,self.allrpdict0 =NNset
@@ -232,6 +232,7 @@ class MCTS(object):
         self.ECFPdepth = 3
         self.NNmode = modelset[0]
         self.predictor.LoadInfo(NNset,modelset,self.ECFPdepth)
+        self.predictor.LaddZPE = LaddZPE
         self.rpdict = {}
         self.expandrpdict = {}
         self.expandrpdict_fixedsurface = {}
@@ -815,9 +816,17 @@ class Node(object):
             k = k + 1
             _sub.nodeid = self.nodeid*10 + k
             self.subnode.append(_sub)
-            print (_sub.Str.rpname)
+            #print (_sub.Str.rpname)
 
+        sumK = 0
+        for node in self.subnode: 
+            #node.K = np.exp(-node.Str.barrier*96485/8.314/1000)
+            node.K = np.exp(-node.Str.barrier*10)
+            sumK = sumK + node.K
 
+        for node in self.subnode: 
+            node.P = node.K/sumK
+            #print node.P
 
     def SelectSubNode(self,nowbestscore):
         if (len(self.subnode) == 0):
@@ -879,6 +888,8 @@ def ReadPara(file):
             para['maxsearchtime']= int(line.split()[1])
         elif line.split()[0] =='LGibbs':
             para['LGibbs']= int(line.split()[1])
+        elif line.split()[0] =='LaddZPE':
+            para['LaddZPE']= int(line.split()[1])
 #        elif line.split()[0] =='%block':
 #            blockname = line.split()[-1]
 #            lines= []
@@ -931,7 +942,7 @@ if __name__ == "__main__":
                 continue
             if para['reloadmodel'] == 1:
                 modelset = LoadModel(para['NNmode'])
-                MCtree = MCTS(NNset, modelset)
+                MCtree = MCTS(NNset, modelset, LaddZPE = para['LaddZPE'])
 
 
             if para['mode'] == 1:
@@ -985,7 +996,7 @@ if __name__ == "__main__":
                 os.system('mv reproducejob reproducejob_done')
                 continue
 
-            MCtree.PathReproduce(para['inputfile'],para['LGibbs'], para['selectsurface'])
+            MCtree.PathReproduce(para['inputfile'],para['LGibbs'], para['selectsurface'], LZPE= para['LaddZPE'])
             os.system('mv reproducejob reproducejob_done')
             time.sleep(30)
 
