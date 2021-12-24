@@ -332,7 +332,7 @@ class MCTS(object):
             #    os.system('rm -f OutResult')
             #    Lout = 1
             
-            if (i%100 ==0 or Lout ): self.OutResult()
+            if (i%1000 ==0 or Lout ): self.OutResult()
 
 
             #if glob.glob('EndSearch'):
@@ -535,7 +535,7 @@ class MCTS(object):
         for i,path in enumerate(_pathresult[:50]):
             if (len(path) == 0): continue
             f.write('-------path-%d-------\n'%(i+1))
-            f.write('score-%f----barrier--%f--heat--%f\n'%(path.score,path.barrier,path.heat))
+            f.write('score-%f----barrier--%f\n'%(path.score,path.barrier))
             for ipair,pair in enumerate(path):
                 f.write('%d  RPwithsite %s   %s   %s   %s   %s   %s\n' %((ipair+1),tmpall[iStr+1].surfaceinfo,tmpall[iStr+1].rpname,tmpall[iStr].sminame,tmpall[iStr+1].sminame,pair[1].barrier,pair[1].heat))
                 iStr =iStr+2
@@ -706,7 +706,7 @@ class MCTS(object):
         iStr =0
         for i,path in enumerate(_pathresult[:20]):
             f.write('-------path-%d-------\n'%(i+1))
-            f.write('score-%f----barrier--%f--heat--%f\n'%(path.score,path.barrier,path.heat))
+            f.write('score-%f----barrier--%f\n'%(path.score,path.barrier))
             for ipair,pair in enumerate(path):
                 f.write('%d  RPwithsite %s   %s   %s   %s   %s   %s\n' %((ipair+1),tmpall[iStr+1].surfaceinfo,tmpall[iStr+1].rpname,tmpall[iStr].sminame,tmpall[iStr+1].sminame,pair[1].barrier,pair[1].heat))
                 iStr =iStr+2
@@ -846,7 +846,7 @@ class Node(object):
                 #if (node.state == 'unvisited'):
                 #    selectnode = node
                 #    return selectnode
-                node.value = float(node.Q)/float(node.N+1)+(np.sqrt(np.sqrt(node.P))*np.sqrt(self.N)/float(node.N+1))
+                node.value = float(node.Q)/float(node.N+1)+ 10.0*(node.P*np.sqrt(self.N)/float(node.N+1))
   
             #print self.state
             #print self.subnode 
@@ -972,11 +972,11 @@ if __name__ == "__main__":
                 MCtree.SetFuzzyTarget2(rootstr[0],targetlist, para['selectsurface'],para['maxpathdepth'])
 
 
-            for i in range(0, para['maxsearchtime'],100):
+            for i in range(0, para['maxsearchtime'],1000):
                 if (glob.glob('Endnowjob.kpl')):
                     os.system('rm -f Endnowjob.kpl')
                     break
-                MCtree.Search(100)
+                MCtree.Search(1000)
                 #_searchtime = _searchtime + 1000
             MCtree.OutPathInfo()
             os.system('mv searchjob searchjob_done')
