@@ -12,7 +12,7 @@ The code is written for Python 2.6 or 2.7. The current version is only a develop
 
 The following paper describes the details of the AI-Cat framework:
 
-Selectivity Origin of Catalytic Glycerol Hydrogenolysis on Cu Resolved from Artificial Intelligence based Monte Carlo Tree Search
+[Artificial intelligence pathway search to resolve catalytic glycerol hydrogenolysis selectivity](https://doi.org/10.1039/D2SC02107B)
 
 ## Table of Contents
 
